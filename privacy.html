@@ -28,7 +28,7 @@
 
 <h1>Privacy Policy</h1>
 <p class="meta">App: <strong>Chartly</strong> for macOS<br>
-Last updated: <strong>6 September 2026</strong></p>
+Last updated: <strong>6 October 2026</strong></p>
 
 <p class="lead">Chartly has no accounts, no advertising, no analytics SDK and no tracking, and we do not sell your data. The App reads a region of your screen that you select, analyses it, and shows you the result. This policy explains exactly what leaves your Mac, why, who receives it, and how long it is kept.</p>
 
@@ -55,6 +55,7 @@ Last updated: <strong>6 September 2026</strong></p>
 
 <h2>5. How analysis works (data flow)</h2>
 <ol>
+  <li>The first time you start a capture, the App asks your permission to send captures to the AI providers named below, and explains what is sent. If you choose Not Now, nothing is captured or sent, and the App asks again at your next capture. Once you allow it, it does not ask again.</li>
   <li>You select a region. The image is captured on your Mac.</li>
   <li>Your Mac reads the candles out of it locally and finds candidate formations. This step never leaves the device.</li>
   <li>The downscaled image, the measured geometry and the metadata in Section 2 are sent over an encrypted connection (HTTPS/TLS) to our processing service, hosted on <strong>Vercel</strong>.</li>
@@ -76,9 +77,9 @@ Last updated: <strong>6 September 2026</strong></p>
 
 <h2>7. What stays on your Mac</h2>
 <ul>
-  <li><strong>Annotated captures</strong> are written to the App's own cache folder inside its sandbox container, so you can find a previous result. They are yours; they are never uploaded, and macOS removes them when it clears caches. The History item reveals the most recent one in the Finder, where you can delete them.</li>
+  <li><strong>Annotated captures</strong> are saved as PNG files in the Chartly folder inside your Pictures folder (~/Pictures/Chartly), so you can find a previous result. They are yours; they are never uploaded. The History item reveals the most recent one in the Finder, where you can move or delete them.</li>
   <li><strong>The clipboard.</strong> Each result is copied to your clipboard so you can paste it. What you then do with it is outside the App.</li>
-  <li><strong>Preferences</strong> — the reading mode you selected, your acknowledgement of the analysis notice, and how far first-run setup got. The subscription SDK also caches your anonymous app user ID and subscription status on your Mac, so the App knows it is unlocked without asking the network every time.</li>
+  <li><strong>Preferences</strong> — the reading mode you selected, whether you have allowed AI processing, and how far first-run setup got. The subscription SDK also caches your anonymous app user ID and subscription status on your Mac, so the App knows it is unlocked without asking the network every time.</li>
 </ul>
 
 <h2>8. International transfers</h2>
