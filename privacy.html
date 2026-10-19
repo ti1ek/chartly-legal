@@ -28,7 +28,7 @@
 
 <h1>Privacy Policy</h1>
 <p class="meta">App: <strong>Chartly</strong> for macOS<br>
-Last updated: <strong>6 October 2026</strong></p>
+Last updated: <strong>19 October 2026</strong></p>
 
 <p class="lead">Chartly has no accounts, no advertising, no analytics SDK and no tracking, and we do not sell your data. The App reads a region of your screen that you select, analyses it, and shows you the result. This policy explains exactly what leaves your Mac, why, who receives it, and how long it is kept.</p>
 
@@ -51,7 +51,7 @@ Last updated: <strong>6 October 2026</strong></p>
 </div>
 
 <h2>4. Screen Recording permission</h2>
-<p>macOS requires your explicit Screen Recording permission before any app can read the screen. Chartly asks for it during first-run setup, and again from its menu bar item if it was not granted then. It uses the permission only while you are taking a capture, and never captures your screen in the background, on a schedule, or without you starting a capture. You can withdraw the permission at any time in System Settings → Privacy &amp; Security → Screen Recording; the App will stop working and nothing else will change.</p>
+<p>macOS requires your explicit Screen Recording permission before any app can read the screen. Chartly asks for it during first-run setup, and again from its menu bar item if it was not granted then. Both Technical Analysis and Price Action use a single still screenshot of the rectangle you select, started with Option-Shift-C or Capture in the menu bar. The same image is used to draw the result, save an annotated PNG in your selected folder, and copy that result to the clipboard. History opens existing files and does not capture the screen. Chartly does not record video or audio, monitor keystrokes, or continuously stream your display. It uses the permission only while you are taking a capture, and never captures your screen in the background, on a schedule, or without you starting a capture. You can withdraw the permission at any time in System Settings → Privacy &amp; Security → Screen Recording; the App will stop working and nothing else will change.</p>
 
 <h2>5. How analysis works (data flow)</h2>
 <ol>
@@ -59,25 +59,25 @@ Last updated: <strong>6 October 2026</strong></p>
   <li>You select a region. The image is captured on your Mac.</li>
   <li>Your Mac reads the candles out of it locally and finds candidate formations. This step never leaves the device.</li>
   <li>The downscaled image, the measured geometry and the metadata in Section 2 are sent over an encrypted connection (HTTPS/TLS) to our processing service, hosted on <strong>Vercel</strong>.</li>
-  <li>Our service checks your subscription with <strong>RevenueCat</strong>, then forwards the image and the geometry to a third-party AI provider — currently <strong>Google</strong> (Gemini) and, as a fallback, <strong>OpenAI</strong>.</li>
-  <li>The provider returns a structured reading — which formation matters, which measured level it points to, and a few typed observations. It returns no free text about you and no personal data.</li>
+  <li>Our service checks your subscription with <strong>RevenueCat</strong>, then forwards the image and the geometry to <strong>OpenAI</strong> and/or <strong>Google (Gemini API)</strong>. OpenAI is normally contacted first. Google may also receive the same data if the first request fails or is slow, so both providers may process a capture. The first valid reading is used. RevenueCat receives the subscription identifier, not the screenshot.</li>
+  <li>The provider returns a structured reading — which formation matters, which measured level it points to, and a few typed observations. This reading is used only to annotate your selected chart.</li>
   <li>Our service passes that reading back to your Mac, which draws the annotated picture locally.</li>
 </ol>
-<p><strong>Our service stores nothing.</strong> The image exists only in memory for the duration of the request; it is never written to disk, to a database or to any storage bucket, and responses are sent with <code>Cache-Control: no-store</code>. Our server logs record only technical metadata — which provider answered, how many candidates and levels were offered, which identifier was chosen, and how long it took. <strong>Logs contain no images and no chart content.</strong></p>
+<p><strong>Our service stores nothing.</strong> The image exists only in memory for the duration of the request; it is never written to disk, to a database or to any storage bucket, and responses are sent with <code>Cache-Control: no-store</code>. Our server logs record only technical metadata — which provider answered, how many candidates and levels were offered, how long it took, and whether a response required repair. <strong>Application logs do not include screenshots, chart geometry, model response text, or subscription identifiers.</strong> Hosting infrastructure also processes ordinary connection metadata, such as IP addresses, to deliver and secure requests.</p>
 <p>There is no offline mode. Every reading needs the service described above; if it is unreachable, the App tells you the analysis is unavailable and draws nothing.</p>
 
 <h2>6. Who we share data with</h2>
 <ul>
-  <li><strong>Google (Gemini API)</strong> and <strong>OpenAI</strong> — process the image to produce the reading. They act as our processors under their API terms, which provide that API content is not used to train their models. They may retain content briefly for abuse monitoring in accordance with their own policies.</li>
+  <li><strong>Google (Gemini API)</strong> and <strong>OpenAI</strong> — process the image to produce the reading. Their retention and data-use rules are governed by the API terms and settings applicable to our accounts. We do not use captures to train models. OpenAI requests disable response storage (store=false); this does not eliminate provider abuse-monitoring retention. Provider retention is separate from our service's in-memory processing; see Section 9.</li>
   <li><strong>Vercel</strong> — hosts the processing service and handles the request in transit.</li>
-  <li><strong>RevenueCat</strong> — manages subscription status, keyed to the anonymous app user ID. RevenueCat also receives standard Apple Search Ads attribution data where Apple provides it.</li>
+  <li><strong>RevenueCat</strong> — manages subscription status, keyed to the anonymous app user ID. It receives purchase and subscription information required to validate access, but not your captures.</li>
   <li><strong>Apple</strong> — processes all payments and manages your subscription. We never see your payment details.</li>
 </ul>
 <p>We do not sell, rent or trade personal data, and we do not share it for advertising or profiling. We may disclose information where we are legally required to do so, or to establish or defend legal claims.</p>
 
 <h2>7. What stays on your Mac</h2>
 <ul>
-  <li><strong>Annotated captures</strong> are saved as PNG files in the Chartly folder inside your Pictures folder (~/Pictures/Chartly), so you can find a previous result. They are yours; they are never uploaded. The History item reveals the most recent one in the Finder, where you can move or delete them.</li>
+  <li><strong>Annotated captures</strong> are automatically saved as PNG files in a folder you choose using the macOS folder picker before your first capture. A writable results folder is required to start a capture. You can open or change this folder from History in the Chartly menu. They are yours; they are never uploaded. History > Open Folder opens your results in Finder, where you can move or delete them.</li>
   <li><strong>The clipboard.</strong> Each result is copied to your clipboard so you can paste it. What you then do with it is outside the App.</li>
   <li><strong>Preferences</strong> — the reading mode you selected, whether you have allowed AI processing, and how far first-run setup got. The subscription SDK also caches your anonymous app user ID and subscription status on your Mac, so the App knows it is unlocked without asking the network every time.</li>
 </ul>
@@ -88,7 +88,8 @@ Last updated: <strong>6 October 2026</strong></p>
 <h2>9. Retention</h2>
 <ul>
   <li><strong>Images and chart content:</strong> not retained by us at all. Held in memory for the seconds a request takes, then discarded.</li>
-  <li><strong>Server logs:</strong> technical metadata only, retained by our hosting provider for a short operational period (typically up to 30 days) and used for debugging and abuse prevention.</li>
+  <li><strong>AI provider retention:</strong> OpenAI may retain abuse-monitoring content for up to 30 days, or longer where required by law, even with response storage disabled. Google retention depends on its applicable Gemini API terms and abuse-monitoring settings. These providers may retain a capture independently of our service. See <a href="https://developers.openai.com/api/docs/guides/your-data">OpenAI data controls</a> and <a href="https://ai.google.dev/gemini-api/terms">Gemini API terms</a>.</li>
+  <li><strong>Server logs:</strong> operational metadata is retained according to the hosting provider's configured log-retention period and used for debugging and abuse prevention. Captures are not intentionally written to application logs.</li>
   <li><strong>Subscription records:</strong> kept by RevenueCat and Apple for as long as needed to manage your subscription and to meet their legal and accounting obligations.</li>
   <li><strong>Local files on your Mac:</strong> kept until you or macOS delete them.</li>
 </ul>
@@ -102,7 +103,7 @@ Last updated: <strong>6 October 2026</strong></p>
 <p>If a capture you submit happens to contain personal data, you are responsible for having a lawful basis to process it; see Section 3.</p>
 
 <h2>11. Your rights</h2>
-<p>Depending on where you live, you may have rights to access, correct, delete, restrict or object to the processing of your personal data, to data portability, and to lodge a complaint with your local supervisory authority. Because we hold no images, no accounts and no identifiers beyond an anonymous subscription ID, there is usually very little for us to act on — but write to us at the address below and we will respond within the time your law allows. To delete everything the App holds locally, delete the App.</p>
+<p>Depending on where you live, you may have rights to access, correct, delete, restrict or object to the processing of your personal data, to data portability, and to lodge a complaint with your local supervisory authority. Because we hold no images, no accounts and no identifiers beyond an anonymous subscription ID, there is usually very little for us to act on — but write to us at the address below and we will respond within the time your law allows. Delete saved PNGs from your chosen results folder and clear the clipboard separately; uninstalling the App does not delete these files.</p>
 
 <h2>12. Security</h2>
 <p>All traffic between your Mac, our service and the providers is encrypted in transit (TLS). API keys live only on the server and are never shipped inside the App. Because nothing is stored, there is no database of your charts to be breached. No system is perfectly secure, and we cannot guarantee absolute security.</p>
